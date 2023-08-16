@@ -1,0 +1,67 @@
+#pragma once
+
+// Core Library STL requrements
+#include <memory>
+#include <optional>
+#include <atomic>
+#include <vector>
+#include <array>
+
+#if !defined(NDEBUG) || defined(_DEBUG)
+    #include <iostream>
+#endif
+
+#define DRAGON_VERSION_MAJOR @DragonEngine_VERSION_MAJOR@
+#define DRAGON_VERSION_MINOR @DragonEngine_VERSION_MINOR@
+#define DRAGON_VERSION_PATCH @DragonEngine_VERSION_PATCH@
+#define DRAGON_VERSION_TWEAK @DragonEngine_VERSION_TWEAK@
+
+#if BOOST_OS_WINDOWS && defined(DRAGON_BUILD_DLL)
+    #define DGAPI __declspec(dllexport)
+#elif BOOST_OS_WINDOWS && defined(DRAGON_DLL)
+    #define DGAPI __declspec(dllimport)
+#elif defined(__GNUC__) && defined(DRAGON_BUILD_DLL)
+    #define DGAPI __attribute__((visibility("default")))
+#else
+    #define DGAPI 
+#endif
+
+// Dependency requirements
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <boost/any.hpp>
+#include <boost/predef.h>
+
+#ifndef DRAGON_NO_VULKAN
+    #include <vulkan/vulkan.hpp>
+    #include <vk_mem_alloc.h>
+
+    /**
+     * @brief Macro to define the Version of DragonEngine in a Vulkan-accepted way
+    */
+    #ifdef VK_MAKE_API_VERSION
+        #define DRAGON_VERSION VK_MAKE_API_VERSION(@DragonEngine_VERSION_TWEAK@, @DragonEngine_VERSION_MAJOR@, @DragonEngine_VERSION_MINOR@, @DragonEngine_VERSION_PATCH@)
+    #else
+        #define DRAGON_VERSION VK_MAKE_VERSION(@DragonEngine_VERSION_MAJOR@, @DragonEngine_VERSION_MINOR@, @DragonEngine_VERSION_PATCH@)
+    #endif
+
+    /**
+     * @brief Macro for creating the version number for the application
+     */
+    #ifndef APP_VERSION
+        #ifdef VK_MAKE_API_VERSION
+            #define APP_VERSION VK_MAKE_API_VERSION(1, 0, 0, 0)
+        #else  
+            #define APP_VERSION VK_MAKE_VERSION(1, 0, 0)
+        #endif
+    #endif
+
+    typedef VkBool32 DgBool32;
+#else
+    typedef uint32_t DgBool32;
+#endif
+
+#define DG_TRUE 1U
+#define DG_FALSE 0U
+
+static std::atomic<unsigned int> dgActiveEngineCount = 0;

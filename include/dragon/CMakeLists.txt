@@ -1,0 +1,1 @@
+configure_file(core/config.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/core/config.hpp)

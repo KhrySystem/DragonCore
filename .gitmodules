@@ -1,0 +1,45 @@
+[submodule "external/predef"]
+	path = external/predef
+	url = https://github.com/BoostOrg/predef
+[submodule "external/glm"]
+	path = external/glm
+	url = https://github.com/g-truc/glm
+[submodule "external/any"]
+	path = external/any
+	url = https://github.com/BoostOrg/any
+[submodule "external/config"]
+	path = external/config
+	url = https://github.com/BoostOrg/config
+[submodule "external/type_traits"]
+	path = external/type_traits
+	url = https://github.com/BoostOrg/type_traits
+[submodule "external/core"]
+	path = external/core
+	url = https://github.com/BoostOrg/core
+[submodule "external/static_assert"]
+	path = external/static_assert
+	url = https://github.com/BoostOrg/static_assert
+[submodule "external/throw_exception"]
+	path = external/throw_exception
+	url = https://github.com/BoostOrg/throw_exception
+[submodule "external/assert"]
+	path = external/assert
+	url = https://github.com/BoostOrg/assert
+[submodule "external/type_index"]
+	path = external/type_index
+	url = https://github.com/BoostOrg/type_index
+[submodule "external/container_hash"]
+	path = external/container_hash
+	url = https://github.com/BoostOrg/container_hash
+[submodule "external/describe"]
+	path = external/describe
+	url = https://github.com/BoostOrg/describe
+[submodule "external/preprocessor"]
+	path = external/preprocessor
+	url = https://github.com/BoostOrg/preprocessor
+[submodule "external/mp11"]
+	path = external/mp11
+	url = https://github.com/BoostOrg/mp11
+[submodule "external/VulkanMemoryAllocator"]
+	path = external/VulkanMemoryAllocator
+	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator
