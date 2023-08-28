@@ -11,13 +11,9 @@ struct DgEngineCreateInfo {
 };
 
 struct DgEngine {
-    #ifndef DRAGON_NO_VULKAN
-        VkInstance instance;
-        #ifndef NDEBUG
-            VkDebugUtilsMessengerEXT debugUtilsMessenger;
-        #endif
-    #endif
-    std::vector<boost::any> submodules;
+    VkInstance instance;
+    VkDebugUtilsMessengerEXT debugUtilsMessenger;
+    std::vector<std::any> submodules;
 };
 
 DGAPI DgResult dgInitEngine(DgEngine &engine, DgEngineCreateInfo &createInfo);

@@ -1,11 +1,12 @@
 #pragma once
 
 // Core Library STL requrements
+#include <any>
+#include <atomic>
+#include <array>
 #include <memory>
 #include <optional>
-#include <atomic>
 #include <vector>
-#include <array>
 
 #if !defined(NDEBUG) || defined(_DEBUG)
     #include <iostream>
