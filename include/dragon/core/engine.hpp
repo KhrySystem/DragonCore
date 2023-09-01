@@ -3,18 +3,37 @@
 #include "config.hpp"
 #include "result.hpp"
 
-struct DgEngineCreateInfo {
+struct DgSubmodule;
+
+typedef struct DgEngineCreateInfo {
     DgBool32 vulkanDebugEnabled = DG_FALSE;
     std::vector<const char*> vkExtensions;
     std::vector<const char*> vkLayers;
     std::string appName;
-};
+} DgEngineCreateInfo;
 
-struct DgEngine {
+typedef struct DgEngine {
+    DgEngine(DgEngineCreateInfo &createInfo);
     VkInstance instance;
     VkDebugUtilsMessengerEXT debugUtilsMessenger;
-    std::vector<std::any> submodules;
-};
+    std::vector<DgSubmodule> submodules;
+    std::vector<uint8_t> module_type;
 
-DGAPI DgResult dgInitEngine(DgEngine &engine, DgEngineCreateInfo &createInfo);
-DGAPI void dgDestroyEngine(DgEngine &engine);
+    DgResult init();
+
+    ~DgEngine();
+} DgEngine;
+
+typedef struct DgCreateInfo_T {
+    DgEngine* pEngine;
+}DgCreateInfo_T;
+
+
+typedef struct DgSubmodule {
+    uint16_t type;
+    DgEngine* pEngine;
+
+    DgSubmodule(DgCreateInfo_T &createInfo);
+    virtual DgResult init();
+    virtual DgResult update();
+} DgSubmodule;

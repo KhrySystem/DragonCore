@@ -1,10 +1,11 @@
 #include <dragon/core.hpp>
 
-DGAPI void dgDestroyEngine(DgEngine &engine) {
-    #ifndef DRAGON_NO_VULKAN
-        #ifndef NDEBUG
-            dgDestroyDebugUtilsMessengerEXT(engine.instance, engine.debugUtilsMessenger, nullptr);
-        #endif
-        vkDestroyInstance(engine.instance, nullptr);
-    #endif
+DGAPI DgEngine::~DgEngine() {
+    if(this->debugUtilsMessenger != VK_NULL_HANDLE) {
+        dgDestroyDebugUtilsMessengerEXT(this->instance, this->debugUtilsMessenger, nullptr);
+    }
+
+    if(this->instance != VK_NULL_HANDLE) {
+        vkDestroyInstance(this->instance, nullptr);
+    }
 }
