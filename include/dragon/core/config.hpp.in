@@ -1,63 +1,24 @@
 #pragma once
 
-// Core Library STL requrements
-#include <any>
-#include <atomic>
-#include <array>
-#include <exception>
-#include <memory>
-#include <optional>
-#include <vector>
-
-#if !defined(NDEBUG) || defined(_DEBUG)
-    #include <iostream>
-#endif
-
-#define DRAGON_VERSION_MAJOR @DragonEngine_VERSION_MAJOR@
-#define DRAGON_VERSION_MINOR @DragonEngine_VERSION_MINOR@
-#define DRAGON_VERSION_PATCH @DragonEngine_VERSION_PATCH@
-#define DRAGON_VERSION_TWEAK @DragonEngine_VERSION_TWEAK@
-
-#if BOOST_OS_WINDOWS && defined(DRAGON_BUILD_DLL)
-    #define DGAPI __declspec(dllexport)
-#elif BOOST_OS_WINDOWS && defined(DRAGON_DLL)
-    #define DGAPI __declspec(dllimport)
-#elif defined(__GNUC__) && defined(DRAGON_BUILD_DLL)
-    #define DGAPI __attribute__((visibility("default")))
-#else
-    #define DGAPI 
-#endif
-
-// Dependency requirements
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <boost/predef.h>
-#include <boost/preprocessor.hpp>
-
 #include <vulkan/vulkan.hpp>
-#include <vk_mem_alloc.h>
+#include <boost/predef.h>
 
-/**
- * @brief Macro to define the Version of DragonEngine in a Vulkan-accepted way
-*/
-#ifdef VK_MAKE_API_VERSION
-    #define DRAGON_VERSION VK_MAKE_API_VERSION(@DragonEngine_VERSION_TWEAK@, @DragonEngine_VERSION_MAJOR@, @DragonEngine_VERSION_MINOR@, @DragonEngine_VERSION_PATCH@)
-#else
-    #define DRAGON_VERSION VK_MAKE_VERSION(@DragonEngine_VERSION_MAJOR@, @DragonEngine_VERSION_MINOR@, @DragonEngine_VERSION_PATCH@)
-#endif
+#define DRAGON_ENGINE_NAME "DragonEngine"
+#define DRAGON_ENGINE_VERSION VK_MAKE_API_VERSION(0, @DragonEngine_VERSION_MAJOR@, @DragonEngine_VERSION_MINOR@, @DragonEngine_VERSION_PATCH@)
+#define VERSION(major, minor, patch) VK_MAKE_API_VERSION(0, major, minor, patch)
 
-/**
- * @brief Macro for creating the version number for the application
+/* DGAPI is used to declare public API functions for export
+ * from the DLL / shared library / dynamic library.
  */
-#ifndef APP_VERSION
-    #ifdef VK_MAKE_API_VERSION
-        #define APP_VERSION VK_MAKE_API_VERSION(1, 0, 0, 0)
-    #else  
-        #define APP_VERSION VK_MAKE_VERSION(1, 0, 0)
-    #endif
+#if defined(_WIN32) && defined(_DRAGON_BUILD_DLL)
+ /* We are building Dragon as a Win32 DLL */
+ #define DGAPI __declspec(dllexport)
+#elif defined(_WIN32) && defined(DRAGON_DLL)
+ /* We are calling a GLFW Win32 DLL */
+ #define DGAPI __declspec(dllimport)
+#elif defined(__GNUC__) && defined(_DRAGON_BUILD_DLL)
+ /* We are building GLFW as a Unix shared library */
+ #define DGAPI __attribute__((visibility("default")))
+#else
+ #define DGAPI
 #endif
-
-typedef VkBool32 DgBool32;
-
-#define DG_TRUE 1U
-#define DG_FALSE 0U

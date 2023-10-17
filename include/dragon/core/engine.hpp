@@ -1,39 +1,40 @@
 #pragma once
 
-#include "config.hpp"
-#include "result.hpp"
+#include <vulkan/vulkan.hpp>
+namespace Dragon {
+    class Engine;
+}
+#include "Submodule.hpp"
+#include <VkBootstrap.h>
+#include <exception>
+#include <vector>
+#include <string>
 
-struct DgSubmodule;
+namespace Dragon {
+    struct EngineCreateInfo
+    {
+        std::string appName;
+        uint32_t appVersion = 0;
+        bool requestValidationLayers = true;
+    };
+    
 
-typedef struct DgEngineCreateInfo {
-    DgBool32 vulkanDebugEnabled = DG_FALSE;
-    std::vector<const char*> vkExtensions;
-    std::vector<const char*> vkLayers;
-    std::string appName;
-} DgEngineCreateInfo;
+    class Engine
+    {
+    private:
+        std::vector<Submodule*> submodules;
+    public:
+        Instance instance;
+        PhysicalDevice physicalDevice;
+        Device device;
 
-typedef struct DgEngine {
-    DgEngine(DgEngineCreateInfo &createInfo);
-    VkInstance instance;
-    VkDebugUtilsMessengerEXT debugUtilsMessenger;
-    std::vector<DgSubmodule> submodules;
-    std::vector<uint8_t> module_type;
+        bool addSubmodule(Submodule* submodule);
+        void init(EngineCreateInfo &createInfo);
 
-    DgResult init();
+        void update();
 
-    ~DgEngine();
-} DgEngine;
+        void close();
 
-typedef struct DgCreateInfo_T {
-    DgEngine* pEngine;
-}DgCreateInfo_T;
-
-
-typedef struct DgSubmodule {
-    uint16_t type;
-    DgEngine* pEngine;
-
-    DgSubmodule(DgCreateInfo_T &createInfo);
-    virtual DgResult init();
-    virtual DgResult update();
-} DgSubmodule;
+        ~Engine();
+    };
+}
