@@ -1,5 +1,5 @@
 #pragma once
 
 #include "core/config.hpp"
-#include "core/Engine.hpp"
-#include "core/Submodule.hpp"
+#include "core/engine.hpp"
+#include "core/submodule.hpp"
