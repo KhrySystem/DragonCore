@@ -2,7 +2,7 @@
 
 bool Dragon::Engine::addSubmodule(Dragon::Submodule* submodule) {
     this->submodules.push_back(submodule);
-
+    submodule->onAddition(this);
     return true;
 }
 
