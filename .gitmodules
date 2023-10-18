@@ -10,3 +10,42 @@
 [submodule "external/vk-bootstrap"]
 	path = external/vk-bootstrap
 	url = https://github.com/charles-lunarg/vk-bootstrap
+[submodule "external/format"]
+	path = external/format
+	url = https://github.com/Boostorg/format
+[submodule "external/assert"]
+	path = external/assert
+	url = https://github.com/Boostorg/assert
+[submodule "external/config"]
+	path = external/config
+	url = https://github.com/Boostorg/config
+[submodule "external/core"]
+	path = external/core
+	url = https://github.com/Boostorg/core
+[submodule "external/optional"]
+	path = external/optional
+	url = https://github.com/Boostorg/optional
+[submodule "external/smart_ptr"]
+	path = external/smart_ptr
+	url = https://github.com/Boostorg/smart_ptr
+[submodule "external/utility"]
+	path = external/utility
+	url = https://github.com/Boostorg/utility
+[submodule "external/io"]
+	path = external/io
+	url = https://github.com/Boostorg/io
+[submodule "external/static_assert"]
+	path = external/static_assert
+	url = https://github.com/Boostorg/static_assert
+[submodule "external/throw_exception"]
+	path = external/throw_exception
+	url = https://github.com/Boostorg/throw_exception
+[submodule "external/type_traits"]
+	path = external/type_traits
+	url = https://github.com/Boostorg/type_traits
+[submodule "external/move"]
+	path = external/move
+	url = https://github.com/Boostorg/move
+[submodule "external/detail"]
+	path = external/detail
+	url = https://github.com/Boostorg/detail

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <VkBootstrap.h>
-#include "Engine.hpp"
+#include "engine.hpp"
 
 #include "aliases.hpp"
 
@@ -10,6 +10,8 @@ namespace Dragon
     class Submodule
     {
         public:
+            virtual void onAddition(Engine* parent) {}
+
             virtual void beforeInstanceCreation(Engine* parent) {}
             virtual InstanceBuilder adjustInstanceParams(Engine* parent, InstanceBuilder &previous) {return previous;}
             virtual void afterInstanceCreation(Engine* parent) {}

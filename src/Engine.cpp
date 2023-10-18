@@ -1,8 +1,4 @@
 #include <dragon/core.hpp>
-#ifndef NDEBUG
-#include <iostream>
-#include <format>
-#endif
 
 bool Dragon::Engine::addSubmodule(Dragon::Submodule* submodule) {
     this->submodules.push_back(submodule);
@@ -34,7 +30,7 @@ void Dragon::Engine::init(EngineCreateInfo &createInfo) {
     Dragon::Result<Dragon::Instance> instanceResult = instanceBuilder.build();
     
     if(!instanceResult) {
-        throw std::format("Failed to create Vulkan instance. Error: {}\n", instanceResult.error().message());
+        throw boost::format("Failed to create Vulkan instance. Error: %1%\n") % instanceResult.error().message();
     }
     this->instance = instanceResult.value();
 
@@ -53,7 +49,7 @@ void Dragon::Engine::init(EngineCreateInfo &createInfo) {
     Dragon::Result<Dragon::PhysicalDevice> physicalDeviceResult = physicalDeviceSelector.select();
 
     if(!physicalDeviceResult) {
-        throw std::format("Failed to pick VkPhysicalDevice. Error: {}\n", physicalDeviceResult.error().message());
+        throw boost::format("Failed to pick VkPhysicalDevice. Error: %1%\n") % physicalDeviceResult.error().message();
     }
 
     this->physicalDevice = physicalDeviceResult.value();
@@ -75,7 +71,7 @@ void Dragon::Engine::init(EngineCreateInfo &createInfo) {
     Dragon::Result<Dragon::Device> deviceResult = deviceBuilder.build();
 
     if(!deviceResult) {
-        throw std::format("Failed to create VkDevice. Error: {}\n", deviceResult.error().message());
+        throw boost::format("Failed to create VkDevice. Error: %1%\n") % deviceResult.error().message();
     }
 
     this->device = deviceResult.value();
