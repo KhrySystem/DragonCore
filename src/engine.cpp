@@ -30,7 +30,7 @@ void Dragon::Engine::init(EngineCreateInfo &createInfo) {
     Dragon::Result<Dragon::Instance> instanceResult = instanceBuilder.build();
     
     if(!instanceResult) {
-        throw boost::format("Failed to create Vulkan instance. Error: %1%\n") % instanceResult.error().message();
+        throw fmt::format("Failed to create Vulkan instance. Error: %1%\n", instanceResult.error().message());
     }
     this->instance = instanceResult.value();
 
@@ -49,7 +49,7 @@ void Dragon::Engine::init(EngineCreateInfo &createInfo) {
     Dragon::Result<Dragon::PhysicalDevice> physicalDeviceResult = physicalDeviceSelector.select();
 
     if(!physicalDeviceResult) {
-        throw boost::format("Failed to pick VkPhysicalDevice. Error: %1%\n") % physicalDeviceResult.error().message();
+        throw fmt::format("Failed to pick VkPhysicalDevice. Error: %1%\n", physicalDeviceResult.error().message());
     }
 
     this->physicalDevice = physicalDeviceResult.value();
@@ -71,7 +71,7 @@ void Dragon::Engine::init(EngineCreateInfo &createInfo) {
     Dragon::Result<Dragon::Device> deviceResult = deviceBuilder.build();
 
     if(!deviceResult) {
-        throw boost::format("Failed to create VkDevice. Error: %1%\n") % deviceResult.error().message();
+        throw fmt::format("Failed to create VkDevice. Error: %1%\n", deviceResult.error().message());
     }
 
     this->device = deviceResult.value();
