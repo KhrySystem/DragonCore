@@ -4,16 +4,15 @@
 namespace Dragon {
     class Engine;
 }
-#include "Submodule.hpp"
+#include "submodule.hpp"
 #include <VkBootstrap.h>
-#include <exception>
 #include <vector>
 #include <string>
 
 namespace Dragon {
     struct EngineCreateInfo
     {
-        std::string appName;
+        std::string appName = DRAGON_ENGINE_NAME;
         uint32_t appVersion = 0;
         bool requestValidationLayers = true;
     };
