@@ -1,5 +1,8 @@
 find_package(Vulkan REQUIRED QUIET)
 
+set(FMT_DOC ${Dragon_BUILD_DEPENDENCY_DOCS})
+set(VMA_BUILD_DOCUMENTATION ${Dragon_BUILD_DEPENDENCY_DOCS})
+
 add_subdirectory(external/fmt)
 add_subdirectory(external/predef)
 add_subdirectory(external/preprocessor)
