@@ -12,6 +12,9 @@ namespace Dragon
         public:
             virtual void onAddition(Engine* parent) {}
 
+            /**
+             * 
+            */
             virtual void beforeInstanceCreation(Engine* parent) {}
             virtual InstanceBuilder adjustInstanceParams(Engine* parent, InstanceBuilder &previous) {return previous;}
             virtual void afterInstanceCreation(Engine* parent) {}

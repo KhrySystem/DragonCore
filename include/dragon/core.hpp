@@ -1,5 +1,11 @@
 #pragma once
 
+
+/**
+ * @defgroup Core Core Engine
+ * This group containst structs and classes from the Dragon::Core module
+*/
+
 #include <boost/predef.h>
 #include <boost/preprocessor.hpp>
 #if BOOST_OS_WINDOWS
