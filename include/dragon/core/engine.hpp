@@ -9,6 +9,9 @@ namespace Dragon {
 #include <vector>
 #include <string>
 
+/**
+ * @brief Main namespace for everything related to Dragon
+*/
 namespace Dragon {
     /**
      * @ingroup Core
@@ -78,8 +81,15 @@ namespace Dragon {
         */
         void update();
 
+        /**
+         * Close function. Is internally called by the destructor, but could be useful for a full restart of the engine and all submodules.
+        */
         void close();
 
+        /**
+         * Destructor. Engine Destruction always succeeds, however improper submodule code may cause warnings, errors, or memory leaks.
+         * 
+        */
         ~Engine();
     };
 }

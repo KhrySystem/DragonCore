@@ -3,7 +3,8 @@
 
 /**
  * @defgroup Core Core Engine
- * This group containst structs and classes from the Dragon::Core module
+ * 
+ * @brief This group containst structs and classes from the Dragon::Core module
 */
 
 #include <boost/predef.h>
