@@ -4,8 +4,8 @@
 #include <boost/predef.h>
 
 #define DRAGON_ENGINE_NAME "DragonEngine"
-#define DRAGON_ENGINE_VERSION VK_MAKE_API_VERSION(0, @DragonEngine_VERSION_MAJOR@, @DragonEngine_VERSION_MINOR@, @DragonEngine_VERSION_PATCH@)
-#define VERSION(major, minor, patch) VK_MAKE_API_VERSION(0, major, minor, patch)
+#define DRAGON_ENGINE_VERSION VK_MAKE_API_VERSION(@DragonEngine_VERSION_TWEAK@, @DragonEngine_VERSION_MAJOR@, @DragonEngine_VERSION_MINOR@, @DragonEngine_VERSION_PATCH@)
+#define VERSION(tweak, major, minor, patch) VK_MAKE_API_VERSION(tweak, major, minor, patch)
 
 /* DGAPI is used to declare public API functions for export
  * from the DLL / shared library / dynamic library.

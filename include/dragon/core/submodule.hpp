@@ -51,7 +51,7 @@ namespace Dragon
              * 
              * @returns The InstanceBuilder after being adjusted by this submodule's needs
             */
-            virtual InstanceBuilder adjustInstanceParams(Engine* parent, InstanceBuilder &previous) {return previous;}
+            inline virtual InstanceBuilder adjustInstanceParams(Engine* parent, InstanceBuilder &previous) {return previous;}
             /**
              * @brief Called after VkInstance creation. No logic from engine being 
              * improperly initialized should happen in this function.
