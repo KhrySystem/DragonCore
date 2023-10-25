@@ -45,7 +45,7 @@ namespace Dragon {
             Instance instance; /**< Vulkan instance data. Parent of all other Vulkan objects. Do not do anything to this unless you know EXACTLY what you're doing.*/
             PhysicalDevice physicalDevice; /**< Vulkan PhysicalDevice data. Represents a GPU of some kind. Do not do anything to this unless you know EXACTLY what you're doing.*/
             Device device; /**< Vulkan Device data. This is the actually useful version of a PhysicalDevice.  Do not do anything to this unless you know EXACTLY what you're doing.*/
-
+            VmaAllocator allocator;
         public:
             /**
              * @brief Returns the Vulkan Instance attached to this object
@@ -65,6 +65,13 @@ namespace Dragon {
              * @returns Dragon::Device
             */
             inline Device getDevice() {return this->device;}
+            /**
+             * @brief Returns the VmaAllocator derived from the VkDevice attached to this engine
+             * 
+             * @returns VmaAllocator
+            */
+           inline VmaAllocator getAllocator() {return this->allocator;}
+
             /**
              * Adds a submodule to this engine. Submodules may not be shared across engines.
              * Only one instance of each submodule should be added to each engine. Any class 

@@ -29,6 +29,7 @@ target_link_libraries(dgcore-${DragonEngine_VERSION_MAJOR} PUBLIC
     GPUOpen::VulkanMemoryAllocator
     vk-bootstrap
     Vulkan::Vulkan
+    Vulkan::Headers
 )
 
 if(BUILD_SHARED_LIBS)

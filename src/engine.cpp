@@ -79,6 +79,15 @@ void Dragon::Engine::init(EngineCreateInfo &createInfo) {
     for(Dragon::Submodule* submodule : this->submodules) {
         submodule->afterDeviceCreation(this);
     }
+
+    VmaAllocatorCreateInfo allocCreateInfo{};
+    allocCreateInfo.vulkanApiVersion = VK_API_VERSION_1_2;
+    allocCreateInfo.device = this->device.device;
+    allocCreateInfo.physicalDevice = this->physicalDevice.physical_device;
+    allocCreateInfo.instance = this->instance.instance;
+
+    vmaCreateAllocator(&allocCreateInfo, &this->allocator);
+
 }
 
 void Dragon::Engine::update() {
@@ -88,6 +97,7 @@ void Dragon::Engine::update() {
 }
 
 void Dragon::Engine::close() {
+    vmaDestroyAllocator(this->allocator);
     vkb::destroy_device(this->device);
     vkb::destroy_instance(this->instance);
 }

@@ -32,6 +32,8 @@
 
 #include <fmt/core.h>
 
+#include <vk_mem_alloc.h>
+
 #include "core/config.hpp"
 #include "core/engine.hpp"
 #include "core/submodule.hpp"
