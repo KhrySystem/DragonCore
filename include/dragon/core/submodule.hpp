@@ -4,6 +4,7 @@
 #include "engine.hpp"
 
 #include "aliases.hpp"
+#include "config.hpp"
 
 namespace Dragon
 {
@@ -14,8 +15,7 @@ namespace Dragon
      * 
      * @see Dragon::Engine::addSubmodule()
     */
-    class Submodule
-    {
+    class DGCOREAPI Submodule {
         public:
             /**
              * @brief Called when the submodule is added to the core engine via the addSubmodule call.

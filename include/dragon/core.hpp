@@ -6,6 +6,21 @@
  * 
  * @brief This group containst structs and classes from the Dragon::Core module
 */
+/* DGAPI is used to declare public API functions for export
+ * from the DLL / shared library / dynamic library.
+ */
+#if defined(_WIN32) && defined(DRAGON_CORE_BUILD_DLL)
+ /* We are building Dragon as a Win32 DLL */
+ #define DGCOREAPI __declspec(dllexport)
+#elif defined(_WIN32) && defined(DRAGON_CORE_DLL)
+ /* We are calling a Win32 DLL */
+ #define DGCOREAPI __declspec(dllimport)
+#elif defined(__GNUC__) && defined(DRAGON_CORE_BUILD_DLL)
+ /* We are building Dragon as a Unix shared library */
+ #define DGCOREAPI __attribute__((visibility("default")))
+#else
+ #define DGCOREAPI
+#endif
 
 #include <boost/predef.h>
 #include <boost/preprocessor.hpp>
