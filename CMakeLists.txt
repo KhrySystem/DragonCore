@@ -2,6 +2,8 @@
 set(FMT_DOC ${Dragon_BUILD_DEPENDENCY_DOCS})
 set(VMA_BUILD_DOCUMENTATION ${Dragon_BUILD_DEPENDENCY_DOCS})
 
+set(FMT_INSTALL ${Dragon_INSTALL})
+
 set(_shared ${BUILD_SHARED_LIBS})
 set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(external/fmt)
@@ -15,21 +17,31 @@ unset(_shared)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/dragon/core/config.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/dragon/core/config.hpp)
 
 add_library(dgcore-${DragonEngine_VERSION_MAJOR} 
+    "src/engine_init.hpp"
     "src/engine.cpp"
+    "src/internal.cpp"
 )
 
 target_include_directories(dgcore-${DragonEngine_VERSION_MAJOR} PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/include 
-    ${Vulkan_INCLUDE_DIR}
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${Vulkan_INCLUDE_DIR}>
+    $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(dgcore-${DragonEngine_VERSION_MAJOR} PUBLIC 
-    Boost::predef
-    Boost::preprocessor
-    fmt::fmt
-    GPUOpen::VulkanMemoryAllocator
-    vk-bootstrap
-    Vulkan::Vulkan
-    Vulkan::Headers
+    $<BUILD_INTERFACE:
+        Boost::predef
+        Boost::preprocessor
+        fmt::fmt
+        vk-bootstrap
+        Vulkan::Vulkan
+        Vulkan::Headers
+        GPUOpen::VulkanMemoryAllocator
+    >
+    $<INSTALL_INTERFACE:
+        fmt::fmt
+        Vulkan::Vulkan
+        Vulkan::Headers
+    >
 )
 
 if(BUILD_SHARED_LIBS)
@@ -38,3 +50,7 @@ if(BUILD_SHARED_LIBS)
 endif()
 
 add_library(Dragon::Core ALIAS dgcore-${DragonEngine_VERSION_MAJOR})
+
+if(Dragon_INSTALL)
+    include(cmake/install.cmake)
+endif()

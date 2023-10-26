@@ -45,7 +45,17 @@ namespace Dragon {
             Instance instance; /**< Vulkan instance data. Parent of all other Vulkan objects. Do not do anything to this unless you know EXACTLY what you're doing.*/
             PhysicalDevice physicalDevice; /**< Vulkan PhysicalDevice data. Represents a GPU of some kind. Do not do anything to this unless you know EXACTLY what you're doing.*/
             Device device; /**< Vulkan Device data. This is the actually useful version of a PhysicalDevice.  Do not do anything to this unless you know EXACTLY what you're doing.*/
-            VmaAllocator allocator;
+            VmaAllocator allocator; /**<Vulkan Memory Allocator object. Ensures we don't go above any buffer limitations.*/
+
+            void instanceCreation(const char* appName, uint32_t appVersion, bool requestValidationLayers);
+            void physicalDeviceSelection();
+            void deviceCreation();
+            void allocatorCreation();
+
+            /**
+             * Close function. Is internally called by the destructor.
+            */
+            void close();
         public:
             /**
              * @brief Returns the Vulkan Instance attached to this object
@@ -105,11 +115,6 @@ namespace Dragon {
              * @throw std::string
             */
             void update();
-
-            /**
-             * Close function. Is internally called by the destructor, but could be useful for a full restart of the engine and all submodules.
-            */
-            void close();
 
             /**
              * Destructor. Engine Destruction always succeeds, however improper submodule code may cause warnings, errors, or memory leaks.
