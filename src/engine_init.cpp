@@ -74,11 +74,14 @@ void Dragon::Engine::deviceCreation() {
 
     Dragon::Result<Dragon::Device> deviceResult = deviceBuilder.build();
 
+
     if(!deviceResult) {
         throw fmt::format("Failed to create VkDevice. Error: %1%\n", deviceResult.error().message());
     }
 
     this->device = deviceResult.value();
+
+    Dragon::Result<Dragon::Queue> graphicsQueueResult = this->device.get_queue()
 
     for(Dragon::Submodule* submodule : this->submodules) {
         submodule->afterDeviceCreation(this);

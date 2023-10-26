@@ -1,5 +1,4 @@
 #include <dragon/core.hpp>
-#include "engine_init.hpp"
 
 bool Dragon::Engine::addSubmodule(Dragon::Submodule* submodule) {
     this->submodules.push_back(submodule);

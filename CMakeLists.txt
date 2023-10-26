@@ -18,8 +18,8 @@ unset(_shared)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/dragon/core/config.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/dragon/core/config.hpp)
 
 add_library(dgcore-${DragonEngine_VERSION_MAJOR} 
-    "src/engine_init.hpp"
-    "src/engine.cpp"
+    "src/engine_core.cpp"
+    "src/engine_init.cpp"
     "src/internal.cpp"
 )
 
