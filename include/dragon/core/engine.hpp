@@ -23,12 +23,8 @@ namespace Dragon {
     struct DGCOREAPI EngineCreateInfo
     {
         std::string appName = DRAGON_ENGINE_NAME; /**<Application name to pass to the Vulkan instance. Does not have to be equal to window names from the graphics engine*/
-        /**
-         * Application version made by VK_MAKE_API_VERSION(major, minor, revis, patch) macro.
-        */
-        uint32_t appVersion = 0; 
+        uint32_t appVersion = 0; /**<Application version made by VK_MAKE_API_VERSION(major, minor, revis, patch) macro.*/
         bool requestValidationLayers = true; /**<set to true if validation layers should be added to the vulkan instance. Validation layers should NOT be added to a Release build in any way, shape, or form and so this should be set by a macro involving NDEBUG */
-
     };
     
     /**

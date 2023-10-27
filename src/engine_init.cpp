@@ -81,7 +81,7 @@ void Dragon::Engine::deviceCreation() {
 
     this->device = deviceResult.value();
 
-    Dragon::Result<Dragon::Queue> graphicsQueueResult = this->device.get_queue()
+    
 
     for(Dragon::Submodule* submodule : this->submodules) {
         submodule->afterDeviceCreation(this);
