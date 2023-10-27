@@ -81,8 +81,6 @@ void Dragon::Engine::deviceCreation() {
 
     this->device = deviceResult.value();
 
-    
-
     for(Dragon::Submodule* submodule : this->submodules) {
         submodule->afterDeviceCreation(this);
     }
