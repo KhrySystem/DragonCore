@@ -33,7 +33,6 @@ target_link_libraries(dgcore-${DragonEngine_VERSION_MAJOR} PUBLIC
         Boost::predef
         Boost::preprocessor
         fmt::fmt
-        vk-bootstrap
         Vulkan::Vulkan
         Vulkan::Headers
         GPUOpen::VulkanMemoryAllocator
