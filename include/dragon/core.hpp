@@ -34,9 +34,10 @@
 
 #include <vk_mem_alloc.h>
 
-#include "core/aliases.hpp"
 #include "core/buffer.hpp"
 #include "core/config.hpp"
 #include "core/engine.hpp"
+#include "core/instance_builder.hpp"
+#include "core/instance.hpp"
 #include "core/submodule.hpp"
 #include "core/vk_enum_string_helper.h"

@@ -1,10 +1,9 @@
 #pragma once
 
-#include <VkBootstrap.h>
 #include "engine.hpp"
-
-#include "aliases.hpp"
 #include "config.hpp"
+#include "instance_builder.hpp"
+#include "instance.hpp"
 
 namespace Dragon
 {
