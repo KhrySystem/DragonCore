@@ -1,9 +1,10 @@
 #pragma once
 
-#include "engine.hpp"
 #include "config.hpp"
-#include "instance_builder.hpp"
-#include "instance.hpp"
+#include "vk_helpers/device_builder.hpp"
+#include "engine.hpp"
+#include "vk_helpers/instance_builder.hpp"
+#include "vk_helpers/physical_device_builder.hpp"
 
 namespace Dragon
 {
@@ -81,7 +82,7 @@ namespace Dragon
              * 
              * @returns The PhysicalDeviceSelector after being adjusted by this submodule's needs
             */
-            virtual Dragon::PhysicalDeviceSelector adjustPhysicalDeviceParams(Engine* parent, PhysicalDeviceSelector &previous) {return previous;}
+            virtual Dragon::PhysicalDeviceBuilder adjustPhysicalDeviceParams(Engine* parent, PhysicalDeviceBuilder &previous) {return previous;}
             /**
              * @brief Called after Physical Device selection. No logic from engine being 
              * improperly initialized should happen in this function.

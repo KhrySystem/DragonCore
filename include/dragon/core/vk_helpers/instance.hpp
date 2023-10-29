@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vulkan/vulkan.hpp>
+#include <vulkan/vulkan.h>
 
 namespace Dragon {
     class Instance;
@@ -15,13 +15,13 @@ namespace Dragon {
             VkDebugUtilsMessengerEXT debugMessenger;
             VkAllocationCallbacks* allocCallbacks;
         public:
-            inline VkInstance getInstance() {return this->instance;}
             inline VkDebugUtilsMessengerEXT getDebugMessenger() {return this->debugMessenger;}
             inline VkAllocationCallbacks* getAllocationCallbacks() {return this->allocCallbacks;}
 
             operator VkInstance() const;
 
+            void cleanup();
+
             friend class InstanceBuilder;
-            friend class PhysicalDeviceSelector;
     };
 }

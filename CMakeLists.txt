@@ -10,7 +10,6 @@ set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(external/fmt)
 add_subdirectory(external/predef)
 add_subdirectory(external/preprocessor)
-add_subdirectory(external/vk-bootstrap)
 add_subdirectory(external/VulkanMemoryAllocator)
 set(BUILD_SHARED_LIBS ${_shared})
 unset(_shared)
@@ -20,7 +19,9 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/dragon/core/config.hpp.in ${C
 add_library(dgcore-${DragonEngine_VERSION_MAJOR} 
     "src/engine_core.cpp"
     "src/engine_init.cpp"
+    "src/instance_builder.cpp"
     "src/internal.cpp"
+    "src/physical_device_builder.cpp"
 )
 
 target_include_directories(dgcore-${DragonEngine_VERSION_MAJOR} PUBLIC 

@@ -1,6 +1,5 @@
 #pragma once
 
-
 /**
  * @defgroup Core Core Engine
  * 
@@ -22,6 +21,16 @@
  #define DGCOREAPI
 #endif
 
+// Predecl
+namespace Dragon {
+    class Engine;
+    class Instance;
+    class PhysicalDevice;
+    class Device;
+}
+
+
+
 #include <boost/predef.h>
 #include <boost/preprocessor.hpp>
 #if BOOST_OS_WINDOWS
@@ -34,10 +43,15 @@
 
 #include <vk_mem_alloc.h>
 
-#include "core/buffer.hpp"
+#include "core/vk_helpers/buffer.hpp"
 #include "core/config.hpp"
+#include "core/vk_helpers/device_builder.hpp"
+#include "core/vk_helpers/device.hpp"
 #include "core/engine.hpp"
-#include "core/instance_builder.hpp"
-#include "core/instance.hpp"
+#include "core/vk_helpers/instance_builder.hpp"
+#include "core/vk_helpers/instance.hpp"
+#include "core/vk_helpers/physical_device_builder.hpp"
+#include "core/vk_helpers/physical_device.hpp"
+#include "core/vk_helpers/result.hpp"
 #include "core/submodule.hpp"
-#include "core/vk_enum_string_helper.h"
+#include "core/vk_helpers/vk_enum_string_helper.h"

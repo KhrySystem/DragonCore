@@ -1,5 +1,3 @@
-#pragma once
-
 #include <dragon/core.hpp>
 
 void Dragon::Engine::instanceCreation(const char* appName, uint32_t appVersion, bool requestValidationLayers) {
@@ -13,22 +11,24 @@ void Dragon::Engine::instanceCreation(const char* appName, uint32_t appVersion, 
         instanceBuilder = submodule->adjustInstanceParams(this, instanceBuilder);
     }
 
-    instanceBuilder = instanceBuilder.set_app_name(appName)
-                                    .set_app_version(appVersion)
-                                    .set_engine_name(DRAGON_ENGINE_NAME)
-                                    .set_engine_version(DRAGON_ENGINE_VERSION)
-                                    .require_api_version(1, 2, 0);
+    instanceBuilder.setAppName(appName);
+    instanceBuilder.setAppVersion(appVersion);
+    instanceBuilder.setEngineName(DRAGON_ENGINE_NAME);
+    instanceBuilder.setEngineVersion(DRAGON_ENGINE_VERSION);
+    instanceBuilder.requireAPIVersion(1, 2, 0);
 
     if(requestValidationLayers) {
-        instanceBuilder = instanceBuilder.request_validation_layers().use_default_debug_messenger().enable_layer("VK_LAYER_KHRONOS_validation");
+        instanceBuilder.requestValidationLayers();
+        instanceBuilder.useDefaultDebugMessenger();
+        instanceBuilder.enableValidationLayer("VK_LAYER_KHRONOS_validation");
     }
 
     Dragon::Result<Dragon::Instance> instanceResult = instanceBuilder.build();
     
     if(!instanceResult) {
-        throw fmt::format("Failed to create Vulkan instance. Error: %1%\n", instanceResult.error().message());
+        throw fmt::format("Failed to create Vulkan instance. Error: %1%\n", instanceResult.getError().message);
     }
-    this->instance = instanceResult.value();
+    this->instance = instanceResult.getValue();
 
     for(Dragon::Submodule* submodule : this->submodules) {
         submodule->afterInstanceCreation(this);
@@ -40,21 +40,21 @@ void Dragon::Engine::physicalDeviceSelection() {
         submodule->beforePhysicalDeviceSelection(this);
     }
 
-    Dragon::PhysicalDeviceSelector physicalDeviceSelector(this->instance);
+    Dragon::PhysicalDeviceBuilder physicalDeviceBuilder(this->instance);
 
-    physicalDeviceSelector = physicalDeviceSelector.defer_surface_initialization();
+    physicalDeviceBuilder.deferSurfaceInitialization();
 
     for(Dragon::Submodule* submodule: this->submodules) {
-        physicalDeviceSelector = submodule->adjustPhysicalDeviceParams(this, physicalDeviceSelector);
+        physicalDeviceBuilder = submodule->adjustPhysicalDeviceParams(this, physicalDeviceBuilder);
     }
 
-    Dragon::Result<Dragon::PhysicalDevice> physicalDeviceResult = physicalDeviceSelector.select();
+    Dragon::Result<Dragon::PhysicalDevice> physicalDeviceResult = physicalDeviceBuilder.buildFirst();
 
     if(!physicalDeviceResult) {
-        throw fmt::format("Failed to pick VkPhysicalDevice. Error: %1%\n", physicalDeviceResult.error().message());
+        throw fmt::format("Failed to pick VkPhysicalDevice. Error: %1%\n", physicalDeviceResult.getError().message);
     }
 
-    this->physicalDevice = physicalDeviceResult.value();
+    this->physicalDevice = physicalDeviceResult.getValue();
 
     for(Dragon::Submodule* submodule : this->submodules) {
         submodule->afterPhysicalDeviceSelection(this);
@@ -76,10 +76,10 @@ void Dragon::Engine::deviceCreation() {
 
 
     if(!deviceResult) {
-        throw fmt::format("Failed to create VkDevice. Error: %1%\n", deviceResult.error().message());
+        throw fmt::format("Failed to create VkDevice. Error: %1%\n", deviceResult.getError().message);
     }
 
-    this->device = deviceResult.value();
+    this->device = deviceResult.getValue();
 
     for(Dragon::Submodule* submodule : this->submodules) {
         submodule->afterDeviceCreation(this);
@@ -89,9 +89,9 @@ void Dragon::Engine::deviceCreation() {
 void Dragon::Engine::allocatorCreation() {
     VmaAllocatorCreateInfo allocCreateInfo{};
     allocCreateInfo.vulkanApiVersion = VK_API_VERSION_1_2;
-    allocCreateInfo.device = this->device.device;
-    allocCreateInfo.physicalDevice = this->physicalDevice.physical_device;
-    allocCreateInfo.instance = this->instance.instance;
+    allocCreateInfo.device = this->device;
+    allocCreateInfo.physicalDevice = this->physicalDevice;
+    allocCreateInfo.instance = this->instance;
 
     vmaCreateAllocator(&allocCreateInfo, &this->allocator);
 }

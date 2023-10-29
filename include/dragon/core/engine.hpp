@@ -8,7 +8,9 @@ namespace Dragon {
 #include <vector>
 #include <string>
 
-#include "instance.hpp"
+#include "vk_helpers/instance.hpp"
+#include "vk_helpers/device.hpp"
+#include "vk_helpers/physical_device.hpp"
 #include "submodule.hpp"
 #include "config.hpp"
 /**
