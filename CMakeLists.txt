@@ -77,6 +77,10 @@ target_link_libraries(${VMA_LIB_NAME} PUBLIC
 if(BUILD_SHARED_LIBS)
     target_compile_definitions(${CORE_LIB_NAME} PUBLIC DRAGON_CORE_DLL)
     target_compile_definitions(${CORE_LIB_NAME} PRIVATE DRAGON_CORE_BUILD_DLL)
+
+    if(UNIX)
+        target_link_options(${CORE_LIB_NAME} PUBLIC -fPIC)
+    endif()
 endif()
 
 add_library(Dragon::Core ALIAS ${CORE_LIB_NAME})
