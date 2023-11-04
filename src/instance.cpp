@@ -27,8 +27,7 @@ namespace Dragon {
         }
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 
-        VkInstance* i = &(instance.instance);
-        VkResult res = vkCreateInstance(&createInfo, this->pAllocCallbacks, i);
+        VkResult res = vkCreateInstance(&createInfo, this->pAllocCallbacks, &instance.instance);
 
         if(res != VK_SUCCESS) {
             ResultError error;
