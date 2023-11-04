@@ -14,8 +14,6 @@ void Dragon::Engine::update() {
 
 void Dragon::Engine::close() {
     vmaDestroyAllocator(this->allocator);
-    this->device.cleanup();
-    this->instance.cleanup();
 }
 
 Dragon::Engine::~Engine() {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <optional>
 
 #include <vulkan/vulkan.hpp>
 
@@ -12,15 +13,15 @@ namespace Dragon {
 
     template<typename T> class Result {
         private:
-            ResultError error;
+            std::optional<ResultError> error;
             T value;
         public:
-            Result(ResultError error);
-            Result(T value);
+            inline Result(ResultError error) {this->error = error;}
+            inline Result(T value) {this->value = value;}
 
-            inline ResultError getError() {return this->error;}
+            inline ResultError getError() {return this->error.value();}
             inline T getValue() {return this->value;}
 
-            operator bool() const;
+            inline operator bool() const {return !this->error.has_value();}
     };
 }

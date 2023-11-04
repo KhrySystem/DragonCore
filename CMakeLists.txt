@@ -16,20 +16,49 @@ unset(_shared)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/dragon/core/config.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/dragon/core/config.hpp)
 
-add_library(dgcore-${DragonEngine_VERSION_MAJOR} 
-    "src/engine_core.cpp"
-    "src/engine_init.cpp"
-    "src/instance_builder.cpp"
-    "src/internal.cpp"
-    "src/physical_device_builder.cpp"
+set(VMA_LIB_NAME vma-3)
+set(CORE_LIB_NAME dgcore-${DragonEngine_VERSION_MAJOR})
+
+add_library(${VMA_LIB_NAME} STATIC
+    "src/vma.cpp"
 )
 
-target_include_directories(dgcore-${DragonEngine_VERSION_MAJOR} PUBLIC 
+add_library(dgcore-${DragonEngine_VERSION_MAJOR}
+    "src/device.cpp"
+    "src/engine_core.cpp"
+    "src/engine_init.cpp"
+    "src/instance.cpp"
+    "src/physical_device.cpp"
+)
+
+target_include_directories(${CORE_LIB_NAME} PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${Vulkan_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
-target_link_libraries(dgcore-${DragonEngine_VERSION_MAJOR} PUBLIC 
+target_include_directories(${VMA_LIB_NAME} PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${Vulkan_INCLUDE_DIR}>
+    $<INSTALL_INTERFACE:include>
+)
+target_link_libraries(${CORE_LIB_NAME} PUBLIC 
+    $<BUILD_INTERFACE:
+        Boost::predef
+        Boost::preprocessor
+        fmt::fmt
+        Vulkan::Vulkan
+        Vulkan::Headers
+        GPUOpen::VulkanMemoryAllocator
+        ${VMA_LIB_NAME}
+    >
+    $<INSTALL_INTERFACE:
+        fmt::fmt
+        Vulkan::Vulkan
+        Vulkan::Headers
+        ${VMA_LIB_NAME}
+    >
+)
+target_link_libraries(${VMA_LIB_NAME} PUBLIC 
     $<BUILD_INTERFACE:
         Boost::predef
         Boost::preprocessor
@@ -46,11 +75,11 @@ target_link_libraries(dgcore-${DragonEngine_VERSION_MAJOR} PUBLIC
 )
 
 if(BUILD_SHARED_LIBS)
-    target_compile_definitions(dgcore-${DragonEngine_VERSION_MAJOR} PUBLIC DRAGON_CORE_DLL)
-    target_compile_definitions(dgcore-${DragonEngine_VERSION_MAJOR} PRIVATE DRAGON_CORE_BUILD_DLL)
+    target_compile_definitions(${CORE_LIB_NAME} PUBLIC DRAGON_CORE_DLL)
+    target_compile_definitions(${CORE_LIB_NAME} PRIVATE DRAGON_CORE_BUILD_DLL)
 endif()
 
-add_library(Dragon::Core ALIAS dgcore-${DragonEngine_VERSION_MAJOR})
+add_library(Dragon::Core ALIAS ${CORE_LIB_NAME})
 
 if(Dragon_INSTALL)
     include(cmake/install.cmake)

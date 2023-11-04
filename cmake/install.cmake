@@ -2,7 +2,7 @@ include(GNUInstallDirs)
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/external/VulkanMemoryAllocator/include/vk_mem_alloc.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(TARGETS dgcore-${DragonEngine_VERSION_MAJOR}
+install(TARGETS ${CORE_LIB_NAME} ${VMA_LIB_NAME}
     EXPORT DragonCore_EXPORT
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

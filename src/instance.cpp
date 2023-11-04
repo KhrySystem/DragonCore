@@ -27,7 +27,8 @@ namespace Dragon {
         }
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 
-        VkResult res = vkCreateInstance(&createInfo, this->pAllocCallbacks, &instance.instance);
+        VkInstance* i = &(instance.instance);
+        VkResult res = vkCreateInstance(&createInfo, this->pAllocCallbacks, i);
 
         if(res != VK_SUCCESS) {
             ResultError error;
@@ -99,6 +100,11 @@ namespace Dragon {
     }
 
     void InstanceBuilder::enableValidationLayer(const char* layerName) {
+        for(auto alreadyAdded : this->layers) {
+            if(strcmp(alreadyAdded, layerName) == 0) {
+                return;
+            }
+        }
         this->layers.push_back(layerName);
     }
 
@@ -107,14 +113,26 @@ namespace Dragon {
     }
 
     void InstanceBuilder::enableExtension(const char* extName) {
+        for(auto alreadyAdded : this->extensions) {
+            if(strcmp(alreadyAdded, extName) == 0) {
+                return;
+            }
+        }
         this->extensions.push_back(extName);
     }
 
     void InstanceBuilder::enableExtension(std::string extName) {
-        this->extensions.push_back(extName.c_str());
+        this->enableExtension(extName.c_str());
     }
 
     void InstanceBuilder::setAllocationCallbacks(VkAllocationCallbacks &allocCallbacks) {
         this->pAllocCallbacks = &allocCallbacks;
+    }
+
+    Instance::~Instance() {
+        for(auto physicalDevice : this->physicalDevices) {
+            delete physicalDevice;
+        }
+        vkDestroyInstance(this->instance, this->allocCallbacks);
     }
 }

@@ -29,8 +29,6 @@ namespace Dragon {
     class Device;
 }
 
-
-
 #include <boost/predef.h>
 #include <boost/preprocessor.hpp>
 #if BOOST_OS_WINDOWS
@@ -44,14 +42,12 @@ namespace Dragon {
 #include <vk_mem_alloc.h>
 
 #include "core/vk_helpers/buffer.hpp"
-#include "core/config.hpp"
-#include "core/vk_helpers/device_builder.hpp"
 #include "core/vk_helpers/device.hpp"
-#include "core/engine.hpp"
-#include "core/vk_helpers/instance_builder.hpp"
 #include "core/vk_helpers/instance.hpp"
-#include "core/vk_helpers/physical_device_builder.hpp"
 #include "core/vk_helpers/physical_device.hpp"
-#include "core/vk_helpers/result.hpp"
-#include "core/submodule.hpp"
+#include "core/vk_helpers/queue.hpp"
 #include "core/vk_helpers/vk_enum_string_helper.h"
+#include "core/config.hpp"
+#include "core/engine.hpp"
+#include "core/result.hpp"
+#include "core/submodule.hpp"

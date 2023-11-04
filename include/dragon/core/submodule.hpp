@@ -1,10 +1,10 @@
 #pragma once
 
 #include "config.hpp"
-#include "vk_helpers/device_builder.hpp"
+#include "vk_helpers/device.hpp"
 #include "engine.hpp"
-#include "vk_helpers/instance_builder.hpp"
-#include "vk_helpers/physical_device_builder.hpp"
+#include "vk_helpers/instance.hpp"
+#include "vk_helpers/physical_device.hpp"
 
 namespace Dragon
 {
@@ -51,7 +51,7 @@ namespace Dragon
              * 
              * @returns The InstanceBuilder after being adjusted by this submodule's needs
             */
-            inline virtual InstanceBuilder adjustInstanceParams(Engine* parent, InstanceBuilder &previous) {return previous;}
+            virtual void adjustInstanceParams(Engine* parent, InstanceBuilder &previous) {}
             /**
              * @brief Called after VkInstance creation. No logic from engine being 
              * improperly initialized should happen in this function.
@@ -82,7 +82,7 @@ namespace Dragon
              * 
              * @returns The PhysicalDeviceSelector after being adjusted by this submodule's needs
             */
-            virtual Dragon::PhysicalDeviceBuilder adjustPhysicalDeviceParams(Engine* parent, PhysicalDeviceBuilder &previous) {return previous;}
+            virtual void adjustPhysicalDeviceParams(Engine* parent, PhysicalDeviceBuilder &previous) {}
             /**
              * @brief Called after Physical Device selection. No logic from engine being 
              * improperly initialized should happen in this function.
@@ -113,7 +113,7 @@ namespace Dragon
              * 
              * @returns The PhysicalDeviceSelector after being adjusted by this submodule's needs
             */
-            virtual DeviceBuilder adjustDeviceParams(Engine* parent, DeviceBuilder &previous) {return previous;}
+            virtual void adjustDeviceParams(Engine* parent, DeviceBuilder &previous) {}
             /**
              * @brief Called after Device Creation. No logic from engine being 
              * improperly initialized should happen in this function.
