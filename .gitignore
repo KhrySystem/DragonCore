@@ -10,3 +10,5 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 config.hpp
+
+include/dragon/core/vk_helpers/vk_enum_string_helper.h
