@@ -83,7 +83,7 @@ if(BUILD_SHARED_LIBS)
     target_compile_definitions(${CORE_LIB_NAME} PRIVATE DRAGON_CORE_BUILD_DLL)
 
     if(UNIX)
-        target_link_options(${CORE_LIB_NAME} PUBLIC -fPIC)
+        target_link_options(${CORE_LIB_NAME} PUBLIC --Wall -Werror -fpic)
     endif()
 endif()
 
