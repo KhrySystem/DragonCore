@@ -27,7 +27,7 @@ namespace Dragon {
         }
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 
-        VkResult res = vkCreateInstance(&createInfo, this->pAllocCallbacks, &instance.instance);
+        VkResult res = vkCreateInstance(&createInfo, nullptr, &instance.instance);
 
         if(res != VK_SUCCESS) {
             ResultError error;
@@ -124,14 +124,10 @@ namespace Dragon {
         this->enableExtension(extName.c_str());
     }
 
-    void InstanceBuilder::setAllocationCallbacks(VkAllocationCallbacks &allocCallbacks) {
-        this->pAllocCallbacks = &allocCallbacks;
-    }
-
-    Instance::~Instance() {
+    void Instance::close() {
         for(auto physicalDevice : this->physicalDevices) {
-            delete physicalDevice;
+            physicalDevice->close();
         }
-        vkDestroyInstance(this->instance, this->allocCallbacks);
+        vkDestroyInstance(this->instance, nullptr);
     }
 }

@@ -8,6 +8,7 @@
 #include "instance.hpp"
 #include "../result.hpp"
 #include "queue.hpp"
+#include "device.hpp"
 
 typedef std::function<uint32_t(VkPhysicalDeviceProperties&, VkPhysicalDeviceFeatures&)> PFN_PhysicalDeviceBuilder_RatingFunc;
 
@@ -36,12 +37,21 @@ namespace Dragon {
             VkPhysicalDeviceFeatures features;
             std::vector<QueueFamily> queueFamilies;
             uint32_t rating;
+
+            std::vector<Device*> devices;
         public:
             inline operator VkPhysicalDevice() const {return this->physicalDevice;}
 
             inline Instance getInstance() {return this->instance;}
             QueueFamily getQueueFamilyByType(QueueFamilyType type);
             QueueFamily getQueueFamilyByIndex(size_t index);
+            inline VkPhysicalDevice getDevice() {return this->physicalDevice;}
+
+            void close() {
+                for(auto device : this->devices) {
+                    device->close();
+                }
+            }
 
             friend class PhysicalDeviceBuilder;
             friend class Device;

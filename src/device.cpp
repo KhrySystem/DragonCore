@@ -3,13 +3,18 @@
 namespace Dragon {
     Result<Device> DeviceBuilder::build() {
         Device output;
-        std::vector<VkDeviceQueueCreateInfo> queueInfos(this->physicalDevice.queueFamilies.size());
+        std::vector<VkDeviceQueueCreateInfo> queueInfos;
 
         float queuePriority = 1.0f;
+        
+        std::vector<float> priorities(1, queuePriority);
 
-        for(auto queueFamily : this->physicalDevice.queueFamilies) {
+        for(auto queueFamily : this->physicalDevice->queueFamilies) {
+            if(queueFamily.queueCount > priorities.size()) {
+                priorities.resize(queueFamily.queueCount, queuePriority);
+            }
+
             VkDeviceQueueCreateInfo createInfo{};
-            createInfo.pQueuePriorities = &queuePriority;
             createInfo.queueCount = queueFamily.queueCount;
             createInfo.queueFamilyIndex = queueFamily.id;
             createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -17,7 +22,11 @@ namespace Dragon {
             queueInfos.push_back(createInfo);
         }
 
-        VkPhysicalDeviceFeatures features{};
+        float* pPriorities = priorities.data();
+
+        for(VkDeviceQueueCreateInfo& queueInfo : queueInfos) {
+            queueInfo.pQueuePriorities = pPriorities;
+        }
 
         VkDeviceCreateInfo createInfo{};
         createInfo.enabledExtensionCount = this->extensions.size();
@@ -30,7 +39,7 @@ namespace Dragon {
         createInfo.queueCreateInfoCount = queueInfos.size();
         createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 
-        VkResult result = vkCreateDevice(this->physicalDevice, &createInfo, this->physicalDevice.instance.getAllocationCallbacks(), &output.device);
+        VkResult result = vkCreateDevice(this->physicalDevice->physicalDevice, &createInfo, nullptr, &output.device);
         if(result != VK_SUCCESS) {
             ResultError error;
             error.message = fmt::format("Creating a logical device failed with {}", string_VkResult(result));
@@ -44,7 +53,7 @@ namespace Dragon {
     Result<Queue> Device::getQueue(QueueFamilyType type) {
         std::vector<QueueFamily> possibleQueueFamilies;
 
-        for(auto queueFamily : this->physicalDevice.queueFamilies) {
+        for(auto queueFamily : this->physicalDevice->queueFamilies) {
             if(queueFamily.isType(type)) possibleQueueFamilies.push_back(queueFamily);
         }
 
@@ -59,7 +68,7 @@ namespace Dragon {
             }
 
             ResultError error;
-            error.message = fmt::format("No queue families out of {} were of type {}", this->physicalDevice.queueFamilies.size(), val);
+            error.message = fmt::format("No queue families out of {} were of type {}", this->physicalDevice->queueFamilies.size(), val);
             error.resultCode = VK_ERROR_UNKNOWN;
             return Result<Queue>(error);
         }
@@ -103,7 +112,7 @@ namespace Dragon {
         this->enableExtension(extension.c_str());
     }
 
-    Device::~Device() {
-        vkDestroyDevice(this->device, this->physicalDevice.instance.getAllocationCallbacks());
+    void Device::close() {
+        vkDestroyDevice(this->device, nullptr);
     }
 }

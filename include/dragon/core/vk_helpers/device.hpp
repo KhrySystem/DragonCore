@@ -4,22 +4,20 @@
 
 #include <vulkan/vulkan.h>
 
-#include "physical_device.hpp"
 #include "queue.hpp"
 #include "../result.hpp"
 
 namespace Dragon {
-    class Device;
     class Buffer;
 
     class DGCOREAPI DeviceBuilder {
         private:
-            PhysicalDevice physicalDevice;
+            PhysicalDevice* physicalDevice;
             std::vector<const char*> extensions;
             std::vector<const char*> layers;
-            VkPhysicalDeviceFeatures features;
+            VkPhysicalDeviceFeatures features {VK_FALSE};
         public:
-            inline DeviceBuilder(PhysicalDevice physicalDevice) {this->physicalDevice = physicalDevice;}
+            inline DeviceBuilder(PhysicalDevice* physicalDevice) {this->physicalDevice = physicalDevice;}
             void enableExtension(const char* extension);
             void enableExtension(std::string extension);
 
@@ -27,7 +25,7 @@ namespace Dragon {
     };
     class DGCOREAPI Device {
         private:
-            PhysicalDevice physicalDevice;
+            PhysicalDevice* physicalDevice;
             VkDevice device;
 
             std::vector<Queue> queues;
@@ -35,14 +33,14 @@ namespace Dragon {
             inline operator VkDevice() const {return this->device;};
 
             Result<Queue> getQueue(QueueFamilyType type);
-            inline PhysicalDevice getPhysicalDevice() {return this->physicalDevice;}
+            inline PhysicalDevice* getPhysicalDevice() {return this->physicalDevice;}
 
             Result<Buffer> createBuffer();
 
-            ~Device();
+            void close();
 
             friend class DeviceBuilder;
     };
 }
 
-#include "buffer.hpp"
+#include "physical_device.hpp"

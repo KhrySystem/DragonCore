@@ -27,6 +27,7 @@ namespace Dragon {
     class Instance;
     class PhysicalDevice;
     class Device;
+    class Queue;
 }
 
 #include <boost/predef.h>

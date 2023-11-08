@@ -14,6 +14,8 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/dragon
     PATTERN "*.in" EXCLUDE
 )
 
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools DESTINATION ${CMAKE_INSTALL_DATADIR})
+
 install(EXPORT DragonCore_EXPORT
     FILE DragonEngine_CoreTargets.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dragon

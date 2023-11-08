@@ -15,7 +15,6 @@ namespace Dragon {
             uint32_t appVersion = 0;
             uint32_t engineVersion = 0;
             uint32_t apiVersion = 0;
-            VkAllocationCallbacks* pAllocCallbacks;
             std::vector<const char*> extensions;
             std::vector<const char*> layers;
             bool useValidation;
@@ -43,22 +42,19 @@ namespace Dragon {
             void enableValidationLayer(std::string layerName);
             void enableExtension(const char* extName);
             void enableExtension(std::string extName);
-            void setAllocationCallbacks(VkAllocationCallbacks &allocCallbacks);
     };
 
     class DGCOREAPI Instance {
         private:
             VkInstance instance;
             VkDebugUtilsMessengerEXT debugMessenger;
-            VkAllocationCallbacks* allocCallbacks;
             std::vector<PhysicalDevice*> physicalDevices;
         public:
             inline VkDebugUtilsMessengerEXT getDebugMessenger() {return this->debugMessenger;}
-            inline VkAllocationCallbacks* getAllocationCallbacks() {return this->allocCallbacks;}
-
+            
             inline operator VkInstance() const {return this->instance;}
 
-            ~Instance();
+            void close();
 
             friend class InstanceBuilder;
             friend class PhysicalDevice;

@@ -23,7 +23,7 @@ namespace Dragon {
             instanceBuilder.enableValidationLayer("VK_LAYER_KHRONOS_validation");
         }
 
-        Result<Instance> instanceResult = instanceBuilder.build();
+        auto instanceResult = instanceBuilder.build();
         
         if(!instanceResult) {
             throw fmt::format("Failed to create Vulkan instance. Error: %1%\n", instanceResult.getError().message);
@@ -64,7 +64,7 @@ namespace Dragon {
             submodule->beforeDeviceCreation(this);
         }
 
-        DeviceBuilder deviceBuilder(this->physicalDevice);
+        DeviceBuilder deviceBuilder(&this->physicalDevice);
 
         for(Submodule* submodule : this->submodules) {
             submodule->adjustDeviceParams(this, deviceBuilder);
