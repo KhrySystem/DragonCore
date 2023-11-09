@@ -1,4 +1,4 @@
-import sys
+import sys, os
 
 args = sys.argv
 
@@ -49,8 +49,10 @@ def run_on_file(f, o):
                 current_extension = name
                 output.write(f"#ifdef {current_extension}\n")
 
-        elif line.find("enum") >= 0 and line.find("#") < 0:
+        elif line.find("enum") >= 0 and line.find("#") < 0 and line.find("//") < 0:
             data = line.split(" ")
+            if data[2] == 'is':
+                print(f"Line {count}: {line}")
             output.write(f"static inline const char* string_{data[2]}({data[2]} inputValue) {'{'}\n\tswitch(inputValue) {'{'}\n")
             enum_name = data[2]
             total_enums += 1
@@ -66,14 +68,30 @@ def run_on_file(f, o):
     for ext in possible_extensions:
         print(f"\t{ext}")
     print(f"In {f}, {total_enums} enums were found.")
+    
+def run_on_directory(d, o, r=True):
+    for root, dirs, files in os.walk(d):
+        if root.find("glm") < 0 and \
+        root.find("glslang") < 0 and \
+        root.find("spirv") < 0 and \
+        root.find("dxc") < 0 and \
+        root.lower().find("sdl") < 0 and \
+        root.find("shaderc") < 0 and \
+        root.find("vma") < 0 and \
+        root.lower().find("volk") < 0:
+            for file in files:         
+                with open(o, 'a') as f:
+                    f.write(f"#include <")
+                run_on_file(f"{root}/{file}", o)
+            
+    
 
-def main(vulkan_core_file_path, output_file_path):
+def main(vulkan_include_dir, output_file_path):
     output = open(output_file_path, 'w')
-    output.write("#pragma once\n\n#include <vulkan/vulkan.h>\n#include<vulkan/vk_layer.h>\n\n")
+    output.write("#pragma once\n\n#include <vulkan/vulkan.h>\n#include <vulkan/vk_layer.h>\n\n")
     output.close()
 
-    run_on_file(vulkan_core_file_path + "/vulkan_core.h", output_file_path)
-    run_on_file(vulkan_core_file_path + "/vk_layer.h", output_file_path)
+    run_on_directory(vulkan_include_dir, output_file_path)
 
     
 

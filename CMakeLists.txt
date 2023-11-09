@@ -19,6 +19,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/dragon/core/config.hpp.in ${C
 set(VMA_LIB_NAME vma-3)
 set(CORE_LIB_NAME dgcore-${DragonEngine_VERSION_MAJOR})
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tools/enum_string_helper.py tools/enum_string_helper.py)
 execute_process(COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/enum_string_helper.py ${Vulkan_INCLUDE_DIR}/vulkan ${CMAKE_CURRENT_SOURCE_DIR}/include/dragon/core/vk_helpers/vk_enum_string_helper.h OUTPUT_VARIABLE output ERROR_VARIABLE error)
 message(STATUS ${output})
 message(STATUS ${error})
