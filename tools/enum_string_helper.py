@@ -51,12 +51,13 @@ def run_on_file(f, o):
 
         elif line.find("enum") >= 0 and line.find("#") < 0 and line.find("//") < 0:
             data = line.split(" ")
-            if data[2] == 'is':
-                print(f"Line {count}: {line}")
-            output.write(f"static inline const char* string_{data[2]}({data[2]} inputValue) {'{'}\n\tswitch(inputValue) {'{'}\n")
-            enum_name = data[2]
-            total_enums += 1
-            tab_level = 2
+            if len(data) >= 2:
+                if data[2] == 'is':
+                    print(f"Line {count}: {line}")
+                output.write(f"static inline const char* string_{data[2]}({data[2]} inputValue) {'{'}\n\tswitch(inputValue) {'{'}\n")
+                enum_name = data[2]
+                total_enums += 1
+                tab_level = 2
 
     if current_extension != None:
         output.write("#endif\n\n")
@@ -69,7 +70,9 @@ def run_on_file(f, o):
         print(f"\t{ext}")
     print(f"In {f}, {total_enums} enums were found.")
     
-def run_on_directory(d, o, r=True):
+def run_on_directory(d: str, o, r=True):
+    p = d.split("/").pop()
+    print(p)
     for root, dirs, files in os.walk(d):
         if root.find("glm") < 0 and \
         root.find("glslang") < 0 and \
@@ -79,19 +82,21 @@ def run_on_directory(d, o, r=True):
         root.find("shaderc") < 0 and \
         root.find("vma") < 0 and \
         root.lower().find("volk") < 0:
+            print(root[len(d) - 1])
             for file in files:         
                 with open(o, 'a') as f:
-                    f.write(f"#include <")
+                    f.write(f"#include <{p}/{file}>\n\n")
                 run_on_file(f"{root}/{file}", o)
             
     
 
 def main(vulkan_include_dir, output_file_path):
     output = open(output_file_path, 'w')
-    output.write("#pragma once\n\n#include <vulkan/vulkan.h>\n#include <vulkan/vk_layer.h>\n\n")
+    output.write("#pragma once\n\n#include <vulkan/vulkan.h>\n#include <vulkan/vulkan_core.h>\n")
     output.close()
 
-    run_on_directory(vulkan_include_dir, output_file_path)
+    run_on_file(vulkan_include_dir + "/vulkan.h", output_file_path)
+    run_on_file(vulkan_include_dir + "/vulkan_core.h", output_file_path)
 
     
 
